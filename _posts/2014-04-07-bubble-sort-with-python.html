@@ -1,0 +1,55 @@
+---
+layout: post
+title: Bubble Sort With Python
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>OK, so you would never actually use this algorithm to sort a list in a high-level programming language like Python. You would probably just use the built-in sorted() function (which, by the way, uses an algorithm called Timsort). But let's do it anyway.</p>
+<p>Let's sort this short list from descending order to ascending order using a variation of bubble sort:</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img5.png"><img src="assets/img5.png" alt="img5" width="88" height="20" class="alignnone size-full wp-image-54" /></a></p>
+<p>Start with the first element (4).We are going to compare this first element with all the elements that come after it. So, compare the first element (4) to the second element (8), if the first element is greater than the second element (it's not), swap them.</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img1.png"><img src="assets/img1.png" alt="img1" width="88" height="32" class="alignnone size-full wp-image-49" /></a></p>
+<p>Then, compare the first element (still 4) to the third (3), swap if necessary (it is). </p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img2.png"><img src="assets/img2.png" alt="img2" width="88" height="37" class="alignnone size-full wp-image-50" /></a></p>
+<p>Compare the first element to the fourth, swap if necessary, etc. After one run through, you will end up with this:</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img3.png"><img src="assets/img3.png" alt="img3" width="88" height="20" class="alignnone size-full wp-image-52" /></a></p>
+<p>As you can see, this is not quit sorted yet, but we're getting there. Moving on, compare the second element (8) to the rest of the elements that come after it and swap values, if necessary.</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img4.png"><img src="assets/img4.png" alt="img4" width="88" height="35" class="alignnone size-full wp-image-51" /></a></p>
+<p>On with the code. Start with a function <code>bubbleSort()</code> that takes in one list as an argument and returns a sorted list.</p>
+<pre>
+def bubbleSort(nums):
+</pre>
+<p>We will loop through the list with a <code>for </code>loop like this:</p>
+<pre>
+for i in range(len(nums)):
+</pre>
+<p>Inside this loop, we will nest another loop.</p>
+<pre>
+for i in range(len(nums)):
+    for j in range(i+1, len(nums)):
+</pre>
+<p>Then, our test. If nums[j] (which is some number that is indexed after nums[i]) is greater than nums[i], we swap the elements.</p>
+<pre>
+if nums[j] < nums[i]:
+    nums[j], nums[i] = nums[i], nums[j]
+</pre>
+<p>Our final code will look like this:</p>
+<pre>
+def bubbleSort(nums):
+    for i in range(len(nums)):
+        for j in range(i+1, len(nums)):
+            if nums[j] < nums[i]:
+                nums[j], nums[i] = nums[i], nums[j]
+    return nums
+</pre>

@@ -1,0 +1,40 @@
+---
+layout: post
+title: Recursion
+categories:
+- programming
+tags:
+- programming
+- python
+- recursion
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>A recursive solution to get the factorial of n looks like this:</p>
+<pre>def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n-1)</pre>
+<p>To understand what's going on here, let's break up the solution.</p>
+<p>The if statement is what is called our base case. If n is 1, return 1 With out the base case, our program would loop infinitely.</p>
+<p>The else statement makes a call to itself. It can be a bit confusing to think at first, but after a little practice, recursion starts to make sense.</p>
+<p>Let's say that we want to find !3 (3*2*1). Let's call our factorial function with 3.</p>
+<pre>fact(3)</pre>
+<p>Since n is not 1, we will move on to our else statement. We are returning 3 *&nbsp;fact(2).</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img12.png"><img class="alignnone  wp-image-83" alt="img1" src="assets/img12-1024x700.png" width="300" height="300" /></a></p>
+<p>At this point, a new stack frame is created.</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img21.png"><img class="alignnone size-medium wp-image-84" alt="img2" src="assets/img21-1024x805.png" width="1024" height="805" /></a></p>
+<p>In this stack frame, we make yet another call to the factorial function and another stack frame is created.</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img32.png"><img class="alignnone size-medium wp-image-82" alt="img3" src="assets/img32-1024x803.png" width="1024" height="803" /></a></p>
+<p>We've reached our base case. fact(1) will return one. We can now retrace our steps to figure what those previous calls to the function evaluated to.</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/04/img42.png"><img class="alignnone size-medium wp-image-80" alt="img4" src="assets/img42-1024x847.png" width="1024" height="847" /></a></p>

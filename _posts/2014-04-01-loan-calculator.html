@@ -1,0 +1,146 @@
+---
+layout: post
+title: Loan Calculator
+categories:
+- programming
+tags:
+- bisection search
+- programming
+- python
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>I'm going to present to you how to create a simple loan calculator. This loan calculator we're going to create will calculate what the minimum payment would be to pay off a loan in a year.</p>
+<p>It will take in 2 arguments:</p>
+<ol>
+<li>APR (Annual percentage rate)</li>
+<li>Balance</li>
+</ol>
+<p>Also, this loan will have interest that is compounded monthly (this is what complicates it!).</p>
+<p>For example, say you have a used car loan that you make monthly payments on. The APR (annual percentage rate) is 0.8% the purchase price was $8,000 and you would like to pay it off in a year. What would be the minimum payment that will pay off the loan within a year?</p>
+<p>Where to begin?</p>
+<p>I'm going to use a method called bisection search that will find the answer down to the penny. Essentially, the program is going to make a series of guesses until it arrives at an answer that is close enough.</p>
+<p>First, let's define a function called <code>calcPay </code> that takes in two arguments:</p>
+<pre>def calcPay(balance, apr):
+    pass
+</pre>
+<p>The <code>balance </code>parameter is what we owe and <code>apr </code>is the annual percentage rate.</p>
+<p>Let's take that <code>apr </code>and divide it by twelve so that we get the monthly interest rate (this is the interest added every month <em>after</em> the monthly payment).</p>
+<pre>
+monthlyInterest = apr / 12.0
+</pre>
+<p>Now, let's create a low guess. The obvious answer is zero but we can do better that. The low payment will be:</p>
+<pre>
+low = balance / 12.0
+</pre>
+<p>which is what the minimum payment would be if there were no interest.</p>
+<p>The high payment will be what we would be the compounded balance if we didn't make payments each month. This is:</p>
+<pre>
+high = (balance * (1 + monthlyInterest)**12) / 12.0
+</pre>
+<p>Our initial guess can be the average of the low and high guess.</p>
+<pre>
+guess = (low + high) / 2.0
+</pre>
+<p>We will need to create a copy of our balance variable so that we can keep track of the remaining balance.</p>
+<pre>
+x = balance
+</pre>
+<p>Let's write some code to make our guesses. This code will compute the remaining balance after twelve monthly payments (with interest).</p>
+<pre>
+for month in range(12):
+    x = (x - guess) * (1 + monthlyInterest)
+</pre>
+<p>So far, our program looks like this:</p>
+<pre>
+def calcMinPay(balance, apr):
+
+    monthlyInterest = apr / 12.0
+
+    low = balance / 12.0
+    high = (balance * (1 + monthlyInterest)**12) / 12.0
+
+    guess = (high + low)/ 2.0
+
+    x = balance
+
+    for month in range(12):
+
+        guess = (x - guess) * (1 + monthlyInterest)
+</pre>
+<p>So what happens if the guess is greater than zero? If we still have a remaining balance, then that means that our payment is too low. And we have to change our low guess. Our new low guess will be whatever our guess was during this iteration.</p>
+<p>And if our guess ends up being below zero, then our payment was too high. So our new high guess will be whatever our guess was.</p>
+<pre>
+def calcMinPay(balance, apr):
+
+    monthlyInterest = apr / 12.0
+
+    low = balance / 12.0
+    high = (balance * (1 + monthlyInterest)**12) / 12.0
+
+    guess = (high + low)/ 2.0
+
+    x = balance
+
+    for month in range(12):
+
+    guess = (x - guess) * (1 + monthlyInterest)
+    if x < 0:
+        high = guess
+        guess = (high + low) / 2.0
+    else:
+        low = guess
+        guess = (high + low) / 2.0
+</pre>
+<p>Now, lets stick the copy of balance, the for loop, and the if else block in a while loop so that our guess gets closer and closer to the answer we want.</p>
+<pre>
+while True:
+    x = balance
+    for month in range(12):
+    x = (x - guess) * (1 + monthlyInterest)
+    if < 0:
+        high = guess
+        guess = (high + low) / 2.0
+    else:
+        low = guess
+        guess = (high + low) / 2.0
+</pre>
+<p>Notice that this is an infinite loop. What we need is a condition after while that will stop the loop when we get close enough to the answer.</p>
+<pre>
+eps = 0.01 # i.e. one penny
+</pre>
+<p>While the absolute value of x (the remaining balance) is less than eps, keep going with the loop. Now all we have to do is return our rounded guess and our code is complete:</p>
+<pre>
+def calcMinPay(balance, apr):
+    monthlyInterest = apr / 12.0
+
+    low = balance / 12.0
+    high = (balance * (1 + monthlyInterest)**12) / 12.0
+
+    guess = (high + low)/ 2.0
+
+    eps = 0.01
+
+    x = balance
+
+    while abs(x) > eps:
+        x = balance
+        for month in range(12):
+           x = (x - guess) * (1 + monthlyInterest)
+        if x < 0:
+            high = guess
+            guess = (high + low) / 2.0
+        else:
+            low = guess
+            guess = (high + low) / 2.0
+        return round(guess, 2)
+</pre>

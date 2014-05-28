@@ -1,0 +1,57 @@
+---
+layout: post
+title: Programming Challenge
+categories:
+- programming
+tags:
+- programming
+- python
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>This was reddit's Daily Programmer challenge on April first.</p>
+<p>The goal is to decode this message:</p>
+<blockquote><p>
+Etvmp$Jsspw%%%%<br />
+[e}$xs$ks%$]sy$lezi$wspzih$xli$lmhhir$qiwweki2$Rs{$mx$mw$}syv$xyvr$xs$nsmr<br />
+mr$sr$xlmw$tvero2$Hs$rsx$tswx$er}xlmrk$xlex${mpp$kmzi$e{e}$xlmw$qiwweki2$Pix<br />
+tistpi$higshi$xli$qiwweki$sr$xlimv$s{r$erh$vieh$xlmw$qiwweki2$]sy$ger$tpe}$epsrk<br />
+f}$RSX$tswxmrk$ls{$}sy$higshih$xlmw$qiwweki2$Mrwxieh$tswx$}syv$wspyxmsr$xs$fi$}syv<br />
+jezsvmxi$Lipps${svph$tvskveq$mr$sri$perkyeki$sj$}syv$glsmgi2$<br />
+Qeoi$wyvi$}syv$tvskveq$we}w$&Lipps$[svph%%%&${mxl$7$%$ex$xli$irh2$Xlmw${e}<br />
+tistpi$fvs{wmrk$xli$gleppirki${mpp$xlmro${i$lezi$epp$pswx$syv$qmrhw2$Xlswi${ls$tswx$lipps<br />
+{svph$wspyxmsrw${mxlsyx$xli$xlvii$%%%${mpp$lezi$rsx$higshih$xli$qiwweki$erh$ws$}sy$ger$<br />
+tspmxip}$tsmrx$syx$xlimv$wspyxmsr$mw$mr$ivvsv$,xli}$evi$nywx$jspps{mrk$epsrk${mxlsyx$ors{mrk-<br />
+Irns}$xlmw$jyr2$Xli$xvyxl${mpp$fi$liph$f}$xlswi${ls$ger$higshi$xli$qiwweki2$>-</p></blockquote>
+<p>Each character's ASCII value has been shifted up by 4.</p>
+<p>All we have to do is use the <code>ord() </code>function to get the ASCII value of each character, minus it by 4, and use <code>chr() </code>to turn it back into a character.</p>
+<p>With <code>x</code> being a single character string:</p>
+<pre>
+chr(ord(x)-4)
+</pre>
+<p>If the message is in a text file, we can open it, read it, decode each character, and add it to a string.</p>
+<pre>
+f = open('code.txt', 'r')
+code = f.read()
+ans = ''
+for let in code:
+    x = chr(ord(let)-4)
+    ans += x
+print ans
+</pre>
+<p>Or we can do it more concisely this way.</p>
+<pre>
+with open('code.txt', 'r') as f:
+    code = f.read()
+    print ''.join(map(lambda x: chr(ord(x)-4), code))
+</pre>
+<p>I prefer this way but it may not be as readable using iteration.</p>

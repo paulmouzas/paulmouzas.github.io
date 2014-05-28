@@ -1,0 +1,54 @@
+---
+layout: post
+title: Merge Sort
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>I never actually use recursion while doing any practical programming, but I like to practice it sometimes. Part of the reason for not utilizing it is I barely know how it works sometimes. I can follow the stack diagram to a point, but eventually my brain explodes from the complexity of it.</p>
+<p>Anyway, I decided to see if I could create a merge sort function with Python. I always that that this was a particularly elegant solution for sorting a list. First, I write a simple merge function that will merge two already ordered lists into one ordered list.</p>
+<pre>
+def merge(L1, L2):
+    """ merges two ordered lists 
+    into one ordered list  """
+    ans = []
+    while len(L1) != 0 and len(L2) != 0:
+        if L1[0] <= L2[0]:
+            ans.append(L1.pop(0))
+        else:
+            ans.append(L2.pop(0))
+    if len(L1) > 0:
+        ans += L1
+    if len(L2) > 0:
+        ans += L2
+    return ans
+</pre>
+<p>Now, I create a mergeSort function that uses a divide and conquer strategy. Wikipedia has a great animation that shows how this works.</p>
+<p><img src="assets/Merge-sort-example-300px.gif" /></p>
+<p>Here's my mergeSort function:</p>
+<pre>
+def mergeSort(L):
+    """ Orders a list of unordered
+    elements with recursion """
+    
+    #base case
+    if len(L) <= 1:
+        return L
+
+    mid = len(L)/2
+    left = mergeSort(L[:mid])
+    right = mergeSort(L[mid:])
+        
+    return merge(left, right)
+</pre>
+<p>My base case returns L if the length of L is less than or equal to one because an empty list, or a list of one element, is technically ordered. The magic part is what happens when I call the mergeSort function on the left and right sides of the list. At this point I just take the so called "leap of faith" and trust that this is working as it's supposed to. </p>

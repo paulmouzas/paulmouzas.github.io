@@ -1,0 +1,41 @@
+---
+layout: post
+title: Monty Hall problem
+categories:
+- programming
+tags:
+- python
+- statistics
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>The <a href="http://en.wikipedia.org/wiki/Monty_Hall_problem">Monty Hall problem</a> is something that seems so simple when explained, yet so unintuitive. I had a tougher time than I care to admit trying to simulate the Monty Hall problem in code. </p>
+<p>Here is my approach:</p>
+<pre>
+import random
+
+trys = 1000
+door = ['goat', 'goat', 'car']
+wins = 0
+
+for i in range(trys):
+    random.shuffle(door)
+
+    if door[1] == 'goat':
+        final_choice = door[2]
+    else:
+        final_choice = door[1]
+    if final_choice == 'car':
+        wins += 1
+print 'Number of wins out of 1,000: ', wins
+</pre>
+<p>I chose a door. If that door was a goat, I chose another door (it doesn't matter which one). If it wasn't a goat, I would keep the original guess (since I know for sure it at least wasn't one of the two goats). Statistically, the number of wins should be about 2/3 the number of trys.</p>

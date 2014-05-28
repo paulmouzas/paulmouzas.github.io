@@ -1,0 +1,104 @@
+---
+layout: post
+title: Learning Ruby
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>I can't seem to escape Rails. Everybody keeps talking about while I plug away at Django. I need to see what all the fuss is about so I'm going to start learning Ruby. As Python guy, I feel like I'm being a little unfaithful to my first true programming language (I'm not counting PHP and Javascript). It has been so good to me but I can't get attached to tools. Ruby and Python are just mediums to do creative things.</p>
+<p>I learn best when I document stuff (hence this blog). So I'm going to write some notes on Ruby as I learn it. I already dabbled Ruby before, but I am far from good at it. I can't bang Ruby code out like I can Python.</p>
+<p>The following is basically going to be a stream-of-consciousness documentation of what I'm learning.</p>
+<p>The syntax between Python and Ruby are very similar. Lots of stuff is pretty much the same.</p>
+<p>Ruby has something called symbols that look like this:</p>
+<pre>
+:symbol
+</pre>
+<p>They are like strings, but they are immutable. In Python, strings are already immutable.</p>
+<p>Ruby has constants. I really like this. It's a normal variable, but Ruby complains when you try and change it. Python doesn't have that (at least not that I know of). So, I could do something like</p>
+<pre>
+Pi = 3.1415926539
+</pre>
+<p>and if my program changes the value of Pi, Ruby will tell me.</p>
+<p>To create a global variable in Ruby, you use the dollar sign.</p>
+<pre>
+$globvar
+
+</pre>
+<p>In Python, you would use the global keyword.</p>
+<pre>
+global globvar
+</pre>
+<p>Instance variables begin with @ in Ruby. In Python we use self.</p>
+<p>Ruby uses curly braces for blocks of code.</p>
+<pre>
+2.times { print "Ruby is an odd duck.\n" }
+</pre>
+<p>This is nice as I think even non-programmers can understand what this does. In Python I would do</p>
+<pre>
+for i in range(2):
+    print "Python is a little strange, too.\n"
+</pre>
+<p>That looks a bit more cryptic.</p>
+<p>Block arguments are surrounded by pipe characters and are used in the beginnings of blocks.</p>
+<pre>
+{ |x,y| x + y }
+</pre>
+<p>Ranges in Ruby look like this (1..5) or for characters ('a'..'z')</p>
+<p>If you wish to omit the last value in the range, you include another dot: (1...5)</p>
+<p>Arrays in Ruby seem to be the same things as lists in Python. They have similar methods and they both keep elements in a specific order.</p>
+<p>Hashes are like dictionaries in Python. The syntax for creating a hash is slightly different from creating a dictionary in Python. Hashes can have strings or symbols for keys. In Ruby could do</p>
+<pre>
+my_hash = { 'name' => 'Paul', 'age' => 27 }
+</pre>
+<p>or</p>
+<pre>
+my_hash = { :name => 'Paul, :age => 27 }
+</pre>
+<p>or</p>
+<pre>
+my_hash = { name: 'Paul', age: 27 }
+</pre>
+<p>That seems really unnecessary.</p>
+<p>I can use regular expressions in Ruby without importing a library. All I have to do is surround them in slashes like this.</p>
+<pre>
+/[0-9]/
+</pre>
+<p>Nice.</p>
+<p>So to find a digit, I can do</p>
+<pre>
+/[1-9]/.match("find the first digit 9 in the sentence")
+</pre>
+<p>Python is a bit more involved.</p>
+<pre>
+import re
+n = re.search("find the first digit 9 in the sentence")
+n.group(0)
+</pre>
+<p>Ruby's nil is like Python's None.</p>
+<p>This is really nifty:</p>
+<pre>
+at_work = true
+wearing_tie = if at_work
+                    true
+                else
+                    false
+                end
+</pre>
+<p>To do the same thing in Python, I would have to type wearing_tie twice.</p>
+<pre>
+at_work = True
+if at_work:
+    wearing_tie = True
+else:
+    wearing_tie = False
+</pre>

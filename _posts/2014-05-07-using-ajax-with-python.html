@@ -1,0 +1,95 @@
+---
+layout: post
+title: Using Ajax with Python
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>I rarely use Ajax because most of the time I think it's unnecessary. But I decided to play with it anyway.</p>
+<p>This code will generate a list of names as you type into the input text field. It filters out names and only displays the names that have a match with the characters typed in. For example, typing in 'Jo' will match the names JO, JOAN, JOAN, JOANA, JOANE, <em>etc</em>. and display the names underneath the input field.</p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/05/names.png"><img src="assets/names.png" alt="names" width="504" height="336" class="alignnone size-full wp-image-144" /></a></p>
+<p>I have my names stored on the server in a text file called <code>names.txt</code>. The names are a compiled list from the US Census data. Here's a <a href="http://deron.meranda.us/data/census-derived-all-first.txt" title="names list">link </a>to the text list.</p>
+<p>My Javascript code is embedded in the HTML. As I type into the text box, on each <code>onkeyup</code> event, I execute my <code>showHint </code>function. Here is the HTML with the Javascript embedded in it.</p>
+<pre>
+<!DOCTYPE html SYSTEM>
+<html>
+<head>
+<script>
+function showHint(str)
+{
+var xmlhttp;
+if (str.length==0)
+  { 
+  document.getElementById("txtHint").innerHTML="";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","cgi-bin/names.py"+"/?name="+str,true);
+xmlhttp.send();
+}
+</script>
+</head>
+<body>
+
+<h3>Start typing a name in the input field below:</h3>
+<form action=""> 
+First name: <input type="text" name="name" id="txt1" onkeyup="showHint(this.value)" />
+</form>
+<p>Suggestions: <span id="txtHint"></span></p> 
+
+</body>
+</html>
+</pre>
+<p>This makes a request to the server to run my python script without reloading the page. Here's the server side Python script that takes a string as input, and returns all names that have that string as the first few letters. </p>
+<pre>
+#c:\python27\python.exe
+import CGIHTTPServer
+import cgi
+import os
+print "Content-type: text/html"
+print
+
+dir = os.path.dirname(os.path.realpath(__file__))
+form = cgi.FieldStorage()
+
+word = form["name"].value.upper()
+word_len = len(word)
+lines = open(dir+"\names.txt", "r").readlines()
+names = [line.split()[0] for line in lines]
+
+#names = ["ALEX", "HEATHER", "PAUL", "ANGIE", "GEORGE", "KATERINA"]
+names.sort()
+
+names_to_return = []
+
+for name in names:
+    if name[:word_len]==word:
+        names_to_return.append(name)
+
+print ', '.join(names_to_return) 
+</pre>
+<p>Every time I let go of a key, the Javascript inserts the text data from the Python script into the span element. </p>

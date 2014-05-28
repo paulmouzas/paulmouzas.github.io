@@ -1,0 +1,50 @@
+---
+layout: post
+title: ! 'Daily Programmer #159 (Easy)'
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>The challenge is to implement a game of 'Rock, Paper, Scissors, Lizard, Spock.' It's just rock paper scissors with more options to reduce the chance of a tie.</p>
+<p>Here is my solution:</p>
+<pre>
+import random
+
+throws = dict(r=['sc','l'], p=['r','sp'], sc=['l','p'], l=['sp','p'], sp=['r','sc'])
+
+def userWins(user, comp):
+    ''' True if user wins games '''
+    if comp in throws[user]:
+        return True
+    return False
+
+while True:
+
+    user_choice = raw_input("Choose (r)ock, (p)aper, (sc)issors, (l)izard, or (sp)ock. Press 'q' to quit: ")
+    comp_choice = random.choice(['r','p','sc','l','sp'])
+    
+    if user_choice == 'q':
+        break
+        
+    print "You choose: %s" % user_choice
+    print "Comp chooses: %s" % comp_choice
+    
+    if userWins(user_choice, comp_choice):
+        print "You win!"
+    elif user_choice==comp_choice:
+        print "It's a tie."
+    else: print "You lose :("
+    
+print "Thanks for playing!"
+</pre>
+<p>It's an easy challenge but it took me a few minutes to find a solution that wouldn't simply brute force it by going through every possible scenario. </p>

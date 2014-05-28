@@ -1,0 +1,80 @@
+---
+layout: post
+title: ! 'Daily Programmer #158'
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author:
+  login: paul
+  email: paul.mouzas@gmail.com
+  display_name: paul
+  first_name: ''
+  last_name: ''
+---
+<p>This was Reddit's daily programmer challenge #158. The challenge is take input like this:</p>
+<pre>
+j3f3e3e3d3d3c3cee3c3c3d3d3e3e3f3fjij3f3f3e3e3d3d3c3cee3c3c3d3d3e3e3fj
+</pre>
+<p>and turn it into ASCII art that looks like this:</p>
+<pre>
+.                 . .                 .
+.*              **...**              *.
+.***          ****...****          ***.
+*-----      ------***------      -----*
+*-------  --------***--------  -------*
+*+++++++**++++++++***++++++++**+++++++*
+-+++++++--++++++++---++++++++--+++++++-
+-       --        ---        --       -
++       ++        +++        ++       +
++       ++        +++        ++       +
+</pre>
+<p>Each character in the input is either a digit, or a letter from 'a' to 'j'. 'j' represents a string that looks like this:</p>
+<pre>
+...***--++
+</pre>
+<p>which, if you look at the ASCII art, is a string of the largest columns.Each letter before 'j' is a smaller slice, so that:</p>
+<p><code>'j' is '...***--++'<br />
+'i' is '..***--++'<br />
+'h' is '.***--++'<br />
+'g' is '***--++'</code></p>
+<p>and so on until 'a', which is '+'.</p>
+<p>Each digit in the input will be the white space below the column. The input in our example only has the digit 3. You'll notice in the example that the space below each raised column from the 'ground' is 3. </p>
+<p>Here is what the code might look like:</p>
+<pre>
+letts = '...***--++'
+ans = ['']*10
+input = raw_input()
+
+for i in range(len(input)):
+    if input[i].isalpha():
+    
+        top_space = ord('j') - ord(input[i])
+        slice = letts[top_space:]
+        bottom_space = input[i-1] if input[i-1].isdigit() else 0
+        bottom_space = int(bottom_space)
+        line = (' '*(top_space-bottom_space))+slice+(' '*bottom_space)
+
+        for j in range(10):
+            ans[j] += line[j]
+
+print '\n'.join(ans)
+</pre>
+<p>Let's create a variable <code>letts </code>that will hold this string (our largest column): </p>
+<pre>
+...***--++ 
+</pre>
+<p>Create a list of 10 empty strings that will represent each row of the ASCII art. We choose 10 because that is how long the longest column will be.</p>
+<p>Now we loop through the length of the input. If the i index of input is not a letter of the alphabet, we ignore it and move on. </p>
+<p>We need to calculate how much white space will go on top of this column. We can does this by finding the difference of the Unicode point characters of 'j' and whatever character input[i] is. We'll store this in a variable called <code>top_space</code>.</p>
+<p>We can also use <code>top_space</code> to find the slice of <code>letts </code>we need for this column. </p>
+<pre>
+slice = letts[top_space:]
+</pre>
+<p>The bottom white space will simply be the character before <code>input[i]</code> (or <code>input[i-1]</code>). If it is not a digit, the bottom white space will default to zero, so that our column will all the way at the bottom.</p>
+<p>To make sure our columns are the correct length, we will need to minus the top white space by the bottom white space. We can now create our column by concatenating the top white space, the slice of <code>letts</code>, and the bottom white space. </p>
+<p>Now, all that's left to do is add each character of line (which is a piece of the whole column) to <code>ans</code>.</p>
+<p>Print out the result and enjoy the glorious ASCII art.</p>
