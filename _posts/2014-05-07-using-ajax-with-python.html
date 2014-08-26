@@ -17,7 +17,7 @@ author:
 ---
 <p>I rarely use Ajax because most of the time I think it's unnecessary. But I decided to play with it anyway.</p>
 <p>This code will generate a list of names as you type into the input text field. It filters out names and only displays the names that have a match with the characters typed in. For example, typing in 'Jo' will match the names JO, JOAN, JOAN, JOANA, JOANE, <em>etc</em>. and display the names underneath the input field.</p>
-<p><a href="http://paulmouzas.com/wp-content/uploads/2014/05/names.png"><img src="assets/names.png" alt="names" width="504" height="336" class="alignnone size-full wp-image-144" /></a></p>
+<p><a href="http://paulmouzas.com/wp-content/uploads/2014/05/names.png"><img src="{{site.url}}/assets/names.png" alt="names" width="504" height="336" class="alignnone size-full wp-image-144" /></a></p>
 <p>I have my names stored on the server in a text file called <code>names.txt</code>. The names are a compiled list from the US Census data. Here's a <a href="http://deron.meranda.us/data/census-derived-all-first.txt" title="names list">link </a>to the text list.</p>
 <p>My Javascript code is embedded in the HTML. As I type into the text box, on each <code>onkeyup</code> event, I execute my <code>showHint </code>function. Here is the HTML with the Javascript embedded in it.</p>
 <pre>
