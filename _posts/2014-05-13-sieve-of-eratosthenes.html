@@ -26,11 +26,12 @@ author:
 </ol>
 </blockquote>
 <p>Using these instructions as a guide, I translated everything to Python. I used a dictionary to keep track of the primes. Any key that had a value of False, is not a prime:</p>
-<pre>def sieve(n):
+{% highlight python %}
+def sieve(n):
     d = dict.fromkeys(range(2,n+1), True)
     for i in range(2,n+1):
         if d[i]:
             for j in range(i*2, n+1, i):
                 d[j] = False
     return [x for x in d if d[x]]
-</pre>
+{% endhighlight %}

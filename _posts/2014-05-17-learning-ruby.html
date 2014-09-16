@@ -20,85 +20,84 @@ author:
 <p>The following is basically going to be a stream-of-consciousness documentation of what I'm learning.</p>
 <p>The syntax between Python and Ruby are very similar. Lots of stuff is pretty much the same.</p>
 <p>Ruby has something called symbols that look like this:</p>
-<pre>
+{% highlight ruby %}
 :symbol
-</pre>
+{% endhighlight %}
 <p>They are like strings, but they are immutable. In Python, strings are already immutable.</p>
 <p>Ruby has constants. I really like this. It's a normal variable, but Ruby complains when you try and change it. Python doesn't have that (at least not that I know of). So, I could do something like</p>
-<pre>
+{% highlight ruby %}
 Pi = 3.1415926539
-</pre>
+{% endhighlight %}
 <p>and if my program changes the value of Pi, Ruby will tell me.</p>
 <p>To create a global variable in Ruby, you use the dollar sign.</p>
-<pre>
+{% highlight ruby %}
 $globvar
-
-</pre>
+{% endhighlight %}
 <p>In Python, you would use the global keyword.</p>
-<pre>
+{% highlight python %}
 global globvar
-</pre>
+{% endhighlight %}
 <p>Instance variables begin with @ in Ruby. In Python we use self.</p>
 <p>Ruby uses curly braces for blocks of code.</p>
-<pre>
+{% highlight ruby %}
 2.times { print "Ruby is an odd duck.\n" }
-</pre>
+{% endhighlight %}
 <p>This is nice as I think even non-programmers can understand what this does. In Python I would do</p>
-<pre>
+{% highlight python %}
 for i in range(2):
     print "Python is a little strange, too.\n"
-</pre>
+{% endhighlight %}
 <p>That looks a bit more cryptic.</p>
 <p>Block arguments are surrounded by pipe characters and are used in the beginnings of blocks.</p>
-<pre>
+{% highlight ruby %}
 { |x,y| x + y }
-</pre>
+{% endhighlight %}
 <p>Ranges in Ruby look like this (1..5) or for characters ('a'..'z')</p>
 <p>If you wish to omit the last value in the range, you include another dot: (1...5)</p>
 <p>Arrays in Ruby seem to be the same things as lists in Python. They have similar methods and they both keep elements in a specific order.</p>
 <p>Hashes are like dictionaries in Python. The syntax for creating a hash is slightly different from creating a dictionary in Python. Hashes can have strings or symbols for keys. In Ruby could do</p>
-<pre>
+{% highlight ruby %}
 my_hash = { 'name' => 'Paul', 'age' => 27 }
-</pre>
+{% endhighlight %}
 <p>or</p>
-<pre>
+{% highlight ruby %}
 my_hash = { :name => 'Paul, :age => 27 }
-</pre>
+{% endhighlight %}
 <p>or</p>
-<pre>
+{% highlight ruby %}
 my_hash = { name: 'Paul', age: 27 }
-</pre>
+{% endhighlight %}
 <p>That seems really unnecessary.</p>
 <p>I can use regular expressions in Ruby without importing a library. All I have to do is surround them in slashes like this.</p>
-<pre>
+{% highlight ruby %}
 /[0-9]/
-</pre>
+{% endhighlight %}
 <p>Nice.</p>
 <p>So to find a digit, I can do</p>
-<pre>
+{% highlight ruby %}
 /[1-9]/.match("find the first digit 9 in the sentence")
-</pre>
+{% endhighlight %}
 <p>Python is a bit more involved.</p>
-<pre>
+{% highlight python %}
 import re
 n = re.search("find the first digit 9 in the sentence")
 n.group(0)
-</pre>
+{% endhighlight %}
 <p>Ruby's nil is like Python's None.</p>
 <p>This is really nifty:</p>
-<pre>
+{% highlight ruby %}
 at_work = true
 wearing_tie = if at_work
                     true
                 else
                     false
                 end
-</pre>
+{% endhighlight %}
 <p>To do the same thing in Python, I would have to type wearing_tie twice.</p>
-<pre>
+{% highlight python %}
 at_work = True
 if at_work:
     wearing_tie = True
 else:
     wearing_tie = False
-</pre>
+{% endhighlight %}
