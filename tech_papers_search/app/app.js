@@ -6,9 +6,4 @@ TechPaperApp.controller('TechPaperListCtrl', function ($scope, $http) {
   $http.get('data.json').success(function(data) {
     $scope.papers = data;
   });
-  $scope.isMammal = function(paper)
-  {
-    return paper.mammal == "";
-  };
-  
 });

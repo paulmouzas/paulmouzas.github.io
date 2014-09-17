@@ -11,6 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="app.css"/>
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
@@ -22,6 +23,10 @@
   Search: <input ng-model="query">
   <span ng-click='myFilter = {mammal: "on"}'>Mammal</span> |
   <span ng-click='myFilter = {plant: "on"}'>Plant</span> |
+  <span ng-click='myFilter = {adeno: "on"}'>Adeno</span> |
+  <span ng-click='myFilter = {anaerobic: "on"}'>Anaerobic</span> |
+  <span ng-click='myFilter = {benchtop: "on"}'>Benchtop</span> |
+  <span ng-click='myFilter = {benchtop-autoclavable: "on"}'>Benchtop Autoclavable</span> |
   <span ng-click='myFilter = null'>No filter</span> 
   <ul>
     <li ng-repeat="paper in papers | filter:query | filter:myFilter">
