@@ -45,7 +45,7 @@ j3f3e3e3d3d3c3cee3c3c3d3d3e3e3f3fjij3f3f3e3e3d3d3c3cee3c3c3d3d3e3e3fj
 <p>Each digit in the input will be the amount white space below the column. The input in our example only has the digit 3. You'll notice in the example that the space below each raised column from the 'ground' is 3. </p>
 <p>Here is what the code will look like:</p>
 <pre>
-<code class="language-ruby" data-lang="python">
+{% highlight python %}
 letts = '...***--++'
 ans = ['']*10
 user_input = raw_input()
@@ -63,7 +63,7 @@ for i in range(len(input)):
             ans[j] += line[j]
 
 print '\n'.join(ans)
-</code>
+{% endhighlight %}
 </pre>
 <p>First, we'll create a variable <code>letts</code> that will hold this string (this is what would be the largest column): </p>
 <pre>
@@ -74,11 +74,11 @@ print '\n'.join(ans)
 <p>We need to calculate how much white space will go on top of this column. We can do this by finding the difference of the Unicode point characters of 'j' and whatever character user_input[i] is. We'll store this in a variable called <code>top_space</code>, because this white space will be added to the top of the column.</p>
 <p>We can also use <code>top_space</code> to find the slice of <code>letts</code> we need for this column.</p>
 <pre>
-<code class="language-ruby" data-lang="python">
+{% highlight python %}
 slice = letts[top_space:]
-</code>
+{% endhighlight %}
 </pre>
 <p>The bottom white space will simply be the the digit before <code>user_input[i]</code> (this will simply be <code>user_input[i-1]</code>). If it is not a digit, the bottom white space will default to zero, so that our column will all the way at the bottom.</p>
 <p>To make sure our columns are the correct length, we will need to minus the top white space by the bottom white space. We can now create our column by concatenating the top white space, the slice of <code>letts</code>, and the bottom white space. </p>
 <p>Now, all that's left to do is add each character of line (which is a piece of the whole column) to <code>ans</code>.</p>
-<p>Print out the result and enjoy :)</p>
+<p>Print out the result and enjoy the ASCII art.</p>
