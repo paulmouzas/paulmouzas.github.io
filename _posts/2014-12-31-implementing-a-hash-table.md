@@ -35,7 +35,7 @@ To retrieve a value, I can write town = get(other\_zip\_map, '06770'). Or to set
 So what magic is working under the hood? Well, we could analyze the source code for dict. But it would be much easier to implement a our own simple dict using Python to get a rough idea of how hashmaps work. This will be a very rudimentary hash table that will only be able to hold so many key, value pairs before becoming a very inefficient data structure. But the purpose is just to learn on a basic level how hash tables operate.
 
 
-So that we don't step on Python's dict keyword, instead of calling this a dict, let's call it hashMap. Let's start by creating a nested list. This list has will have 256 empty lists inside of it. Let's call these empty list buckets.
+So that we don't step on Python's dict keyword, instead of calling this a dict, let's call it hashMap. Let's start by creating a nested list. This list will have 256 empty lists inside of it. Let's call these empty list buckets.
 
 {% highlight python %}
 
