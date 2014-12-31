@@ -117,7 +117,7 @@ Retrieving a value from a key isn't much different. We must find the hash\_key, 
 {% highlight python %}
 
 hash_key = hash(key) % len(self.hashmap)
-bucket = self.hashmap[hash_key]
+bucket = hashMap[hash_key]
 for kv in bucket:
     k, v = kv
     if k == key:
