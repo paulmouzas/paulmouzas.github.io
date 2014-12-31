@@ -9,7 +9,7 @@ When you need a hash table in Python you, you would normally use the dict data s
 
 zip_map = {'06770': 'Naugatuck, CT', '06403': 'Beacon Falls'} 
 {% endhighlight %}
-To retrieve, the town that 06770 is associated with you simply write town = zip_map['06770'].
+To retrieve the town that 06770 is associated with you simply write town = zip_map['06770'].
 
 So why exactly do we use this instead of something else. I can think of another way to store key, value pairs. Using a list of tuples would get the job done as well.
 
