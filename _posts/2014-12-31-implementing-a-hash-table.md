@@ -17,7 +17,7 @@ So why exactly do we use this instead of something else. I can think of another 
 
 other_zip_map = [('06770', 'Naugatuck CT',), ('06403', 'Beacon Falls')]
 {% endhighlight %}
-To retrieve 'Naugatuck CT', I could write a function for retrieval:
+To retrieve 'Naugatuck CT', I could write a function for getting a value with a key and setting a value with a key:
 
 {% highlight python %}
 
@@ -30,7 +30,7 @@ def get(map, key):
 def set(map, key, value):
     map.append((key, value))
 {% endhighlight %}
-Then, to retrieve a value, I can write town = retrieve\_value(other\_zip\_map, '06770'). So why not use this implementation? The answer is greater time complexity. It simply takes longer to retrieve and set values for my other\_zip\_map when you don't know the index of the value. Let's say the length of zip map was more than 2 items long. How about every single zip code in the US (let's say 40,000). OK, now let's pretend that the zip code we want, is all the way at the end of the list. Since, we don't know the index, just the key, we have to do a linear search from the beginning of the list in other\_zip\_map to the very end. Let's say this 40,000 units of work. With Python's dictionary data structure, retrieving a value from zip\_map will not take nearly as long. In the worst case scenario, it will in fact take 40,000 operations to find the value. But in practice, dicts are much faster in retrieving values. 
+To retrieve a value, I can write town = get(other\_zip\_map, '06770'). Or to set a value I can write set(other\_zip\_map, '06770', 'Naugatuck CT'. So why not use this implementation? The answer is greater time complexity. It simply takes longer to retrieve and set values for my other\_zip\_map when you don't know the index of the value. Let's say the length of other\_zip\_map was more than 2 items long. How about every single zip-code in the US (let's say 40,000). OK, now let's pretend that the zip-code we want, is all the way at the end of the list. Since, we don't know the index, just the key, we have to do a linear search from the beginning of the list in other\_zip\_map to the very end. Let's say this 40,000 units of work. With Python's dictionary data structure, retrieving a value from zip\_map will not take nearly as long. In the worst case scenario, it will in fact take 40,000 operations to find the value. But in practice, dicts are much faster in retrieving values. 
 
 So what magic is working under the hood? Well, we could analyze the source code for dict. But it would be much easier to implement a our own simple dict using Python to get a rough idea of how hashmaps work. This will be a very rudimentary hash table that will only be able to hold so many key, value pairs before becoming a very inefficient data structure. But the purpose is just to learn on a basic level how hash tables operate.
 
