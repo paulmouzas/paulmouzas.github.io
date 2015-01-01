@@ -3,7 +3,7 @@ layout: post
 title: A Simple Hash Table in Python
 ---
 
-When you need a hash table in Python you, you would normally use the dict data structure. This is enough for your purposes if all you need to do is store information in key, value pairs. If you needed a mapping of all the zip codes and their associated location, a Python dict would suffice. 
+When you need a hash table in Python you, you would normally use the dict data structure. This is enough for your purposes if all you need to do is store information in key, value pairs. If you needed a mapping of all the zip codes and their associated location, a Python dict would be perfect. 
 
 {% highlight python %}
 
@@ -11,7 +11,7 @@ zip_map = {'06770': 'Naugatuck, CT', '06403': 'Beacon Falls'}
 {% endhighlight %}
 To retrieve the town that 06770 is associated with you simply write town = zip_map['06770'].
 
-So why exactly do we use this instead of something else. I can think of another way to store key, value pairs. Using a list of tuples would get the job done as well.
+So why exactly do we use this instead of something else? I can think of another way to store key, value pairs. Using a list of tuples would get the job done as well.
 
 {% highlight python %}
 
@@ -84,14 +84,10 @@ hash_key = hash('06770') % len(hashMap)
  This gives you a value of 157. The computational cost of creating a hash value and finding the length of hashMap are very low, meaning this is computed very fast. Now that we have a hash key, we can insert the value into the hashMap.
 
 {% highlight python %}
-hashMap[hash_key] = ('06770', 'Naugatuck CT')
+hashMap[hash_key].('06770', 'Naugatuck CT')
 {% endhighlight %}
-If you're observant, you'll see a problem in this. The hash function will give you a unique integer (there is a very slight chance that it won't but we don't have to worry about that). When we find the hash\_key by getting the remainder of the hashMap value divided by the length of hashMap (hash('06770') % len(hashMap)) the resulting hash\_key will eventually give you the same hash\_key as another. This means that sometimes, multiple key, value pairs will have to be in a single bucket. This means we will have to append this to the bucket instead.
+If you're observant, you'll see a problem in this. The hash function will give you a unique integer (there is a very slight chance that it won't but we don't have to worry about that). When we find the hash\_key by getting the remainder of the hashMap value divided by the length of hashMap (hash('06770') % len(hashMap)) the resulting hash\_key will eventually give you the same hash\_key as another. This means that sometimes, multiple key, value pairs will have to be in a single bucket. 
 
-{% highlight python %}
-
-hashMap[hash_key].append(('06770', 'Naugatuck, CT'))
-{% endhighlight %}
 There is yet another problem. What if your program will try insert the key, value pair ('06770', 'Naugatuck CT') multiple times. We don't want or need the same data in a single bucket. Also, what if we want to replace the value of the key? We will have to check for this by iterating through the bucket.
 
 {% highlight python %}
