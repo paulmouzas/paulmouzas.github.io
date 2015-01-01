@@ -84,7 +84,7 @@ hash_key = hash('06770') % len(hashMap)
  This gives you a value of 157. The computational cost of creating a hash value and finding the length of hashMap are very low, meaning this is computed very fast. Now that we have a hash key, we can insert the value into the hashMap.
 
 {% highlight python %}
-hashMap[hash_key].('06770', 'Naugatuck CT')
+hashMap[hash_key].append('06770', 'Naugatuck CT')
 {% endhighlight %}
 If you're observant, you'll see a problem in this. The hash function will give you a unique integer (there is a very slight chance that it won't but we don't have to worry about that). When we find the hash\_key by getting the remainder of the hashMap value divided by the length of hashMap (hash('06770') % len(hashMap)) the resulting hash\_key will eventually give you the same hash\_key as another. This means that sometimes, multiple key, value pairs will have to be in a single bucket. 
 
