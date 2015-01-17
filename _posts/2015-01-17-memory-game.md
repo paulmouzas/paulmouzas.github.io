@@ -16,4 +16,4 @@ author:
   last_name: ''
 ---
 
-Just for fun I decided to create a memory game in JavaScript. Because I'm not that experienced with the language it took a lot of tinkering and reading documentation to get this simple game up and running but I did it after a couple of hours. Here's a [link]({{site.url}}/memory).
+Just for fun I decided to create a memory game in JavaScript. Because I'm not that experienced with the language it took a lot of tinkering and reading documentation to get this simple game up and running but I did it after a couple of hours. Here's a [link]({{site.url}}/memory). You can see the source code [here](https://github.com/paulmouzas/paulmouzas.github.io/tree/master/memory).
