@@ -21,14 +21,22 @@ unmatched = false;
 
 $("li").click(function() {
     
-    if (unmatched) {
+    if (unmatched && !$(this).children("div").children("img").hasClass("face-up")) {
         currentImage.hide();
         currentImage.removeClass("face-up");
         firstCard.children("img").hide();
         firstCard.children("img").removeClass();
         unmatched = false;
+        if (!$(this).children("div").children("img").hasClass("face-up")) {
+            currentDiv = $(this).children("div");
+            currentImage = currentDiv.children("img")
+            currentImage.show();
+            currentImage.addClass("face-up");
+            firstCard = currentDiv;
+            firstGuess = false;
+        }
     }
-    if (firstGuess) {
+    else if (firstGuess) {
         if (!$(this).children("div").children("img").hasClass("face-up")) {
             currentDiv = $(this).children("div");
             currentImage = currentDiv.children("img")
