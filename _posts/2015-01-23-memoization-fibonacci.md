@@ -2,7 +2,7 @@
 layout: post
 title: Recursion with Memoization
 ---
-I've mentioned before that I hardly ever use recursion in any of code. I find that a recursive solution to my programming problems hardly ever comes up. Even so, I love study it and create interesting scripts that use it. One very elegant use of the recursion is to create a program to print out a the Fibonacci sequence up to the nth place. It is almost too beautiful:
+I've mentioned before that I hardly ever use recursion in any of code. I find that a recursive solution to my programming problems hardly ever comes up. Even so, I love study it and create interesting scripts that use it. One very elegant use of the recursion is to create a program to print out the Fibonacci sequence up to the nth place. It is almost too beautiful:
 
 {% highlight python %}
 def fib(n):
@@ -16,21 +16,32 @@ Although there is no denying the elegance of this simple little script, it comes
 Here is how long it takes for my computer to computer to compute the above fib function for different inputs of n.
 
 fib(28): 0.125 seconds
+
 fib(29): 0.203000068665 seconds
+
 fib(30): 0.328999996185 seconds
+
 fib(31): 0.532999992371 seconds
+
 fib(32): 0.870000123978 seconds
+
 fib(33): 1.40999984741 seconds
+
 fib(34): 2.26899981499 seconds
+
 fib(35): 3.6819999218 seconds
+
 fib(36): 5.95000004768 seconds
+
 fib(37): 9.6210000515 seconds
+
 fib(38): 15.5989999771 seconds
+
 fib(39): 25.1229999065 seconds
 
-As you can see, as n goes up, the time it takes to complete the program increases drastically. It takes a *very* long time (in the realm of computers anyway) to compute the Fibonacci number at the 39th place. At this rate, it would take days to compute the Fibonacci number for larger n. To understand why this function takes so long to execute, it's helpful to draw out the recursion tree. If we called fib(6), this is what the tree would look like:
+As you can see, as n goes up, the time it takes to complete the program increases drastically. It takes a *very* long time (in the realm of computers anyway) to compute the Fibonacci number at the 39th place. At this rate, it would take days to compute the Fibonacci number for a larger n. To understand why this function takes so long to execute, it's helpful to draw out the recursion tree. If we called fib(6), this is what the tree would look like:
 
-![Fibonacci tree]({{ site.url }}/assets/fibonacci_tree(1).png)
+![Fibonacci tree]({{ site.url }}/assets/fibonacci_tree(1).png=500x)
 
 If you count the calls, this makes 24 calls to itself (not including the original call fib(6)). There is a simple optimization we can make to this that will cut the time complexity of this function drastically. You'll notice that this function makes many redundant calls for n. For example fib(3) is called 3 different time, and fib(2) is called 5 different times. Here is how we can optimize this function.
 
