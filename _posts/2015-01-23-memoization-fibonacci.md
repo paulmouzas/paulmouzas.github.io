@@ -13,7 +13,7 @@ def fib(n):
 
 Although there is no denying the elegance of this simple little script, it comes with a major problem. This program will take a *long* time to complete. The reason is that it makes a lot of unnecessary calls to itself. The time complexity of this algorithm is exponential. 
 
-Here is how long it takes for my computer to computer to compute the above fib function for different inputs of n.
+Here is how long it takes for my computer to compute the above fib function for different inputs of n.
 
 fib(28): 0.125 seconds
 
