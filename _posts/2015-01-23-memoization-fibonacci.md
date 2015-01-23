@@ -54,7 +54,7 @@ Great, so how much time will this shave off our function. Well, let's look at th
 
 fib(660): 0.0009999275 seconds
 
-*Much* better. ItI couldn't go much higher than 660 because I exceed the maximum recursion depth (no tail recursion in Python!). Lets start designing a better function.
+Much better. I couldn't go much higher than 660 because I exceed the maximum recursion depth (no tail recursion in Python!). Lets start designing a better function.
 
 First we create a hash table.
 
