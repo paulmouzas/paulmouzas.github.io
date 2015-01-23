@@ -43,18 +43,18 @@ As you can see, as n goes up, the time it takes to complete the program increase
 
 ![Fibonacci tree]({{ site.url }}/assets/fibonacci_tree(1).png)
 
-If you count the calls, this makes 24 calls to itself (not including the original call fib(6)). There is a simple optimization we can make to this that will cut the time complexity of this function drastically. You'll notice that this function makes many redundant calls for n. For example fib(3) is called 3 different time, and fib(2) is called 5 different times. Here is how we can optimize this function.
+If you count the calls, this makes 24 calls to itself (not including the original call fib(6)). There is a simple optimization we can make to this that will cut the time complexity of this function drastically. You'll notice that this function makes many redundant calls for n. For example fib(3) is called 3 different times, and fib(2) is called 5 different times. Here is how we can optimize this function.
 
 1. Create a hash table (let's call it memo).
 2. Check to see if the key n is in the hash table.
 3. If it is, **do not make another recursive call**. Simply return the value for memo[n]. This is key. This will avoid creating unnecessary calls for fib(n) when we already know what n is.
-4. If n is not in the hash table, put it in as the key. The value will be fib(n). The beauty is that now, there will be no more calls to fib(n) if n has already been call.
+4. If n is not in the hash table, put it in as the key. The value will be fib(n). The beauty is that now, there will be no more calls to fib(n) if n has already been called.
 
 Great, so how much time will this shave off our function. Well, let's look at the data. This is how long it takes when I call fib(660).
 
 fib(660): 0.0009999275 seconds
 
-Much better. I couldn't go much higher than 660 because I exceed the maximum recursion depth (no tail recursion in Python!). Lets start designing a better function.
+*Much* better. ItI couldn't go much higher than 660 because I exceed the maximum recursion depth (no tail recursion in Python!). Lets start designing a better function.
 
 First we create a hash table.
 
