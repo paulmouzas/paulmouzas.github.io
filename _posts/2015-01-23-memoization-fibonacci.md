@@ -97,7 +97,7 @@ def fib(n):
     return table[n]
 {% endhighlight %}
 
-That's it! We've put the key n in the table and associated it with the return value of fib(n - 2) + fib(n - 1). Now, our code will run exponentially faster. The only problem is, this code isn't very modular, and it doesn't look very good. By using decorators, we could clean up this code quite a bit. First, let's look recreate our original code, but add a decorator right above it.
+That's it! We've put the key n in the table and associated it with the return value of fib(n - 2) + fib(n - 1). Now, our code will run exponentially faster. The only problem is, this code isn't very modular, and it doesn't look very good. By using decorators, we could clean up this code quite a bit. First, let's recreate our original code, but add a decorator right above it.
 
 {% highlight python %}
 @memoize
