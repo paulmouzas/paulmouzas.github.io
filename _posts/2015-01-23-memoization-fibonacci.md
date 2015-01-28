@@ -93,7 +93,7 @@ def fib(n):
                   # won't make our function that much slower and I don't want to
                   # clutter up the code
 
-    table[n] = fib2(n - 2) + fib2(n - 1)
+    table[n] = fib(n - 2) + fib(n - 1)
     return table[n]
 {% endhighlight %}
 
