@@ -145,7 +145,7 @@ class HashMap(object):
     def retrieve(self, key):
         hash_key = hash(key) % len(self.hashmap)
         bucket = self.hashmap[hash_key]
-        for kv in enumerate(bucket):
+        for i, kv in enumerate(bucket):
             k, v = kv
             return v
         raise KeyError
