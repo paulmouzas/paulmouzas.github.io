@@ -76,7 +76,7 @@ while True:
     # increase angle by .1 radians
     angle += .01
     clock.tick(50)
-{$ endhighlight $}
+{% endhighlight %}
 
 The second program I made was a experiment in physics. I did this to understand how to add in order to change the direction of an objects.
 
