@@ -79,7 +79,7 @@ while True:
     clock.tick(50)
 {% endhighlight %}
 
-The second program I made was a experiment in physics. I did this to understand how to add in order to change the direction of an objects.
+The second program I made was a experiment in physics. I did this to understand how to add vectors to change the direction of an objects.
 
 <iframe width="420" height="315" src="https://www.youtube.com/embed/p9Xoes63rWI" frameborder="0" allowfullscreen></iframe>
 
