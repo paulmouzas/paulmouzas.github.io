@@ -1,5 +1,6 @@
 ---
-title: Messing With Pygame and Trigonometry
+layout: post
+title: 'Messing With Pygame and Trigonometry'
 ---
 I didn't do too well in high school trigonometry. I think it's because I couldn't quite grok it. I slogged through the course and passed but I just couldn't intuitively understand it. Later, after programming for a little while and messing around with pygame, I finally got it. I think if programming were required in school, and kids made their own games, it would be a lot easier for kids to understand trig.
 
