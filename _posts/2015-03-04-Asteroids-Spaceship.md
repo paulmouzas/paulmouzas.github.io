@@ -1,11 +1,11 @@
 ---
 layout: post
 ---
-Learning about physics and trigonometry is actually fun with Pygame. I wrote this to learn how to add vectors and simulate the type of movement from Atari's Asteroid.
+I can't beleive learning about physics and trigonometry is actually fun with Pygame. I wrote this to learn how to add vectors and simulate the type of movement from Atari's Asteroid.
 
 <iframe width="420" height="315" src="https://www.youtube.com/embed/yYtHLOhZtHQ" frameborder="0" allowfullscreen></iframe>
 
-Here is the code. I didn't get a chance to clean it up or add comment.
+Here is the code. I didn't get a chance to clean it up or add comments.
 {% highlight python %}
 import pygame
 import math
