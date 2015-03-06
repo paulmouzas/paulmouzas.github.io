@@ -1,7 +1,7 @@
 ---
 layout: post
 ---
-Surprisingly, learning about physics and trigonometry is fun with Pygame. I wrote this to learn how to add vectors and simulate the type of movement from Atari's Asteroid. One vector is the trajectory of the spaceship. When thrust is applied, another vecotor is added: the direction that the spaceship is pointing (not the direfction the spaceship is moving) and thrust is applied.
+Surprisingly, learning about physics and trigonometry is fun with Pygame. I wrote this to learn how to add vectors and simulate the type of movement from Atari's Asteroid. One vector is the trajectory of the spaceship. When thrust is applied, another vector is added: the direction that the spaceship is pointing (not the direction the spaceship is moving) and thrust is applied.
 
 <iframe width="420" height="315" src="https://www.youtube.com/embed/yYtHLOhZtHQ" frameborder="0" allowfullscreen></iframe>
 
