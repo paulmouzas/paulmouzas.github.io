@@ -6,10 +6,10 @@ type: post
 ---
 
 Creating a Roku remote with Python is easier than you might think. Armed with Roku's
-developer (documentation)[http://sdkdocs.roku.com/display/sdkdoc/External+Control+Guide],
+developer [documentation](http://sdkdocs.roku.com/display/sdkdoc/External+Control+Guide),
 and a little bit of HTTP and socket programming knowledge, you can whip up a command
 line remote fairly quickly. You could just download the Roku remote app, but
-where's the fun in that? Here's my script on (Github)[https://github.com/paulmouzas/roku-remote].
+where's the fun in that? Here's my script on [Github](https://github.com/paulmouzas/roku-remote).
 
 To start, let's try and discover the Roku. The Roku uses SSDP (Simple Service
 Discover Protocol) to allow devices (like a remote) to find it's address. You
