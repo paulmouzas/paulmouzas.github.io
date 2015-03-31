@@ -48,7 +48,7 @@ information about our particular Roku device. The only response header we really
 need for our purposes is the LOCATION header.
 
 Before we get in to how to send commands to your Roku, let's figure out how to
-find it's address in the first place. You could use any programming language
+find its address in the first place. You could use any programming language
 you please to do this but I prefer to use Python for these sorts of things. As
 long as you don't freak out when you see other languages, you should be able
 to follow along with PHP, Ruby, or whatever you're most comfortable with.
