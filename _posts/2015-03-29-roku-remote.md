@@ -26,7 +26,7 @@ ST: roku:ecp
 
 {% endhighlight %}
 
-This should look fairly familiar if you've ever sent raw HTTP requests with curl
+This should look fairly familiar if you've ever sent raw HTTP requests with telnet
 or netcat. Upon successful transmission of the message, the Roku will send you a response:
 
 {% highlight text %}
@@ -49,7 +49,7 @@ need for our purposes is the LOCATION header.
 
 Before we get in to how to send commands to your Roku, let's figure out how to
 find it's address in the first place. You could use any programming language
-you please to do this but I prefer to use Python for these sorts of things.As
+you please to do this but I prefer to use Python for these sorts of things. As
 long as you don't freak out when you see other languages, you should be able
 to follow along with PHP, Ruby, or whatever you're most comfortable with.
 
@@ -94,7 +94,7 @@ LOCATION: http://192.168.1.247:8060/
 {% endhighlight %}
 
 I created a quick and dirty class to help parse out the response string. It
-stores all the responses in a dictionary in key-value pairs:
+stores all the response headers in a dictionary (hash table) in key-value pairs:
 
 {% highlight python %}
 class HTTPResponse(dict):
