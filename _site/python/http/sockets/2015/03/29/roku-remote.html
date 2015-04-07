@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Creating a Command Line Roku Remote with Python</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Paul Mouzas</a></h1>
+            <a class="extra" href="/">home</a>
+          </div>
+
+          <h2>Creating a Command Line Roku Remote with Python</h2>
+<p class="meta">29 Mar 2015</p>
+
+<div class="post">
+<p>Creating a Roku remote with Python is easier than you might think. Armed with Roku&#39;s
+developer <a href="http://sdkdocs.roku.com/display/sdkdoc/External+Control+Guide">documentation</a>,
+and a little bit of HTTP and socket programming knowledge, you can whip up a command
+line remote fairly quickly. You could just download the Roku remote app, but
+where&#39;s the fun in that? Here&#39;s my script on <a href="https://github.com/paulmouzas/roku-remote">Github</a>.</p>
+
+<p>To start, let&#39;s try and discover the Roku. The Roku uses SSDP (Simple Service
+Discover Protocol) to allow devices (like a remote) to find it&#39;s address. You
+must be in the same wireless network to discover the Roku. According to the
+documentation, to find a Roku device you must send
+the following message to 239.255.255.250 on port 1900:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">M-SEARCH * HTTP/1.1
+Host: 239.255.255.250:1900
+Man: &quot;ssdp:discover&quot;
+ST: roku:ecp</code></pre></div>
+
+<p>This should look fairly familiar if you&#39;ve ever sent raw HTTP requests with telnet
+or netcat. Upon successful transmission of the message, the Roku will send you a response:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">HTTP/1.1 200 OK
+Cache-Control: max-age=3600
+ST: roku:ecp
+USN: uuid:roku:ecp:12C1CM005293
+Ext: 
+Server: Roku UPnP/1.0 MiniUPnPd/1.4
+LOCATION: http://192.168.1.247:8060/</code></pre></div>
+
+<p>The first line tells us the HTTP response status. In this case the Roku gives us
+a 200 status code meaning it heard us
+loud and clear. The lines after the response status are the response headers that give us more
+information about our particular Roku device. The only response header we really
+need for our purposes is the LOCATION header.</p>
+
+<p>Before we get in to how to send commands to your Roku, let&#39;s figure out how to
+find its address in the first place. You could use any programming language
+you please to do this but I prefer to use Python for these sorts of things. As
+long as you don&#39;t freak out when you see other languages, you should be able
+to follow along with PHP, Ruby, or whatever you&#39;re most comfortable with.</p>
+
+<p>So, we know that the Roku is listening on port 1900 on this address:
+239.255.255.250. To send our message we must create a socket and send the
+discover message (above) to the Roku. I&#39;m going to use Python&#39;s sockets library
+to create a socket and send that message:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">DISCOVER_GROUP</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;239.255.255.250&#39;</span><span class="p">,</span> <span class="mi">1900</span><span class="p">)</span>
+
+<span class="n">DISCOVER_MESSAGE</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span><span class="se">\</span>
+<span class="s">M-SEARCH * HTTP/1.1</span><span class="se">\r\n\</span>
+<span class="s">Host: </span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="se">\r\n\</span>
+<span class="s">Man: &quot;ssdp:discover&quot;</span><span class="se">\r\n\</span>
+<span class="s">ST: roku:ecp</span><span class="se">\r\n\r\n\</span>
+<span class="s">&#39;&#39;&#39;</span> <span class="o">%</span> <span class="n">DISCOVER_GROUP</span>
+
+<span class="k">def</span> <span class="nf">find_roku</span><span class="p">():</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="n">DISCOVER_MESSAGE</span><span class="p">,</span> <span class="n">DISCOVER_GROUP</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></code></pre></div>
+
+<p>Notice that there are two CRLFs at the end of the message (\r\n\r\n). You will
+not get a response if you don&#39;t include those. When creating a socket, use the
+AF_INET address family make sure the socket is a datagram socket (DGRAM). If the
+request is successful, you will recieve a response (the HTTP response listed above).
+Call recv on the socket to recieve this response (hopefully):</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">HTTP/1.1 200 OK
+Cache-Control: max-age=3600
+ST: roku:ecp
+USN: uuid:roku:ecp:12C1CM005293
+Ext: 
+Server: Roku UPnP/1.0 MiniUPnPd/1.4
+LOCATION: http://192.168.1.247:8060/</code></pre></div>
+
+<p>I created a quick and dirty class to help parse out the response string. It
+stores all the response headers in a dictionary (hash table) in key-value pairs:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">HTTPResponse</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_text</span><span class="p">):</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">response_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">status_line</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_version</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status_line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">header_name</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">header_value</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">header_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">header_value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></code></pre></div>
+
+<p>Using that class, I can easily get the location of the roku.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">response_text</span> <span class="o">=</span> <span class="n">find_roku</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">HTTPResponse</span><span class="p">(</span><span class="n">response_text</span><span class="p">)</span>
+<span class="n">location</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&#39;location&#39;</span><span class="p">]</span> <span class="c"># =&gt;&#39;http://192.168.1.247:8060&#39;</span></code></pre></div>
+
+<p>According to the documentation, to send a command to the Roku, we send a POST request to the location. If we
+wanted to tell the Roku to go to the home screen, the request would look
+something like this:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">POST /keypress/home HTTP/1.1
+Host: 192.168.1.247:8060</code></pre></div>
+
+<p>Notice that /keypress is followed by the command /home. These are the command
+that the Roku recognizes:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">Home
+Rev
+Fwd
+Play
+Select
+Left
+Right
+Down
+Up
+Back
+InstantReplay
+Info
+Backspace
+Search
+Enter
+Lit_*</code></pre></div>
+
+<p>So, if we wanted to move the cursor to the right, the HTTP request would look
+like this:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">POST /keypress/right HTTP/1.1
+Host: 192.168.1.247:8060</code></pre></div>
+
+<p>Python&#39;s request library makes it pretty easy to send POST requests like the
+ones I laid out above. Assuming the location of the Roku on your network is
+192.168.1.247:8060, to send a command to the Roku you can use this code:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">keypress</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="n">request_url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">&#39;/keypress/&#39;</span> <span class="o">+</span> <span class="n">key</span>
+    <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">request_url</span><span class="p">)</span>
+
+<span class="n">keypress</span><span class="p">(</span><span class="s">&#39;http://192.168.1.247:8060&#39;</span><span class="p">,</span> <span class="s">&#39;select&#39;</span><span class="p">)</span></code></pre></div>
+
+<p>That will send the appropriatte HTTP request to select what ever the cursor was
+hovering over.</p>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Paul Mouzas<br />
+                Technical Writer/Programmer<br />
+                paul.mouzas@gmail.com
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/paulmouzas">github.com/paulmouzas</a><br />
+                <a href="https://twitter.com/phaedrus86">twitter.com/pavlaki86</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

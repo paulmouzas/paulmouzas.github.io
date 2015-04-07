@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Messing With Pygame and Trigonometry</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Paul Mouzas</a></h1>
+            <a class="extra" href="/">home</a>
+          </div>
+
+          <h2>Messing With Pygame and Trigonometry</h2>
+<p class="meta">01 Mar 2015</p>
+
+<div class="post">
+<p>I didn&#39;t do too well in high school trigonometry. I think it&#39;s because I couldn&#39;t quite grok it. I slogged through the course and passed but I just couldn&#39;t intuitively understand it. Later, after programming for a little while and messing around with pygame, I finally got it. I think if programming were required in school, and kids made their own games, it would be a lot easier for kids to understand trig.</p>
+
+<p>After reading about some articles about pygame and physics, I decided to make a couple of programs for fun. The first is an animation to help understand what the hell sine and cosine actually are (I wish they showed this to me in high school when I was struggling with this stuff).</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/NixEtaxaHec" frameborder="0" allowfullscreen></iframe>
+
+<p>Here is the code for it:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="s">&quot;Arial&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="mi">700</span><span class="p">,</span> <span class="mi">700</span><span class="p">))</span>
+
+<span class="n">white</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+<span class="n">red</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">green</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">black</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">)</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">black</span><span class="p">)</span>
+
+    <span class="n">sin</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">cos</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">tan</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+    <span class="c"># calculate the x and y coordinate</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">radius</span> <span class="o">*</span> <span class="n">sin</span> <span class="o">+</span> <span class="mi">350</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">cos</span> <span class="o">+</span> <span class="mi">350</span>
+
+    <span class="n">sin_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;sin: &#39;</span> <span class="o">+</span> <span class="s">&#39;{0:.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sin</span><span class="p">),</span> <span class="bp">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">cos_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;cos: &#39;</span> <span class="o">+</span> <span class="s">&#39;{0:.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cos</span><span class="p">),</span> <span class="bp">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">tan_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;tan: &#39;</span> <span class="o">+</span> <span class="s">&#39;{0:.2f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tan</span><span class="p">),</span> <span class="bp">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">degree_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;angle: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">angle</span><span class="p">)))</span> <span class="o">+</span> <span class="s">u&quot;</span><span class="se">\u00b0</span><span class="s">&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">opposite_x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">opposite_y</span> <span class="o">=</span> <span class="mi">350</span>
+
+    <span class="n">adjacent_x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">adjacent_y</span> <span class="o">=</span> <span class="mi">350</span>
+
+    <span class="c"># draw the circle</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">white</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> 
+
+    <span class="c">#draw the line from the center to the x and y coordinates</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">white</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="c"># draw the opposite line</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">red</span><span class="p">,</span> <span class="p">(</span><span class="n">opposite_x</span><span class="p">,</span> <span class="n">opposite_y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="c"># draw the adjacent line</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="p">(</span><span class="n">adjacent_x</span><span class="p">,</span> <span class="n">adjacent_y</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">sin_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">cos_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">tan_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">degree_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">))</span>
+
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+    <span class="c"># reset angle if full sweep completed</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c"># increase angle by .1 radians</span>
+    <span class="n">angle</span> <span class="o">+=</span> <span class="o">.</span><span class="mo">01</span>
+    <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span></code></pre></div>
+
+<p>The second program I made was a experiment in physics. I did this to understand how to add vectors to change the direction of an objects.</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/p9Xoes63rWI" frameborder="0" allowfullscreen></iframe>
+
+<p>And here is the code for that:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="mi">700</span><span class="p">,</span> <span class="mi">700</span><span class="p">))</span>
+
+<span class="n">white</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+<span class="n">black</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">450</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">speed</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">drag</span> <span class="o">=</span> <span class="o">.</span><span class="mi">999</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">270</span><span class="p">)</span>
+
+<span class="n">gravity</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">addVectors</span><span class="p">((</span><span class="n">angle1</span><span class="p">,</span> <span class="n">length1</span><span class="p">),</span> <span class="p">(</span><span class="n">angle2</span><span class="p">,</span> <span class="n">length2</span><span class="p">)):</span>
+    <span class="n">x</span>  <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle1</span><span class="p">)</span> <span class="o">*</span> <span class="n">length1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle2</span><span class="p">)</span> <span class="o">*</span> <span class="n">length2</span>
+    <span class="n">y</span>  <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle1</span><span class="p">)</span> <span class="o">*</span> <span class="n">length1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle2</span><span class="p">)</span> <span class="o">*</span> <span class="n">length2</span>
+    
+    <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">length</span>  <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+
+<span class="n">running</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">click_down</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">while</span> <span class="n">running</span><span class="p">:</span>
+
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+            <span class="n">running</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEBUTTONDOWN</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mouse</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()</span>
+            <span class="n">click_down</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEBUTTONUP</span><span class="p">:</span>
+            <span class="n">click_down</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">black</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">white</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="n">radius</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+    <span class="n">angle</span><span class="p">,</span> <span class="n">speed</span> <span class="o">=</span> <span class="n">addVectors</span><span class="p">((</span><span class="n">angle</span><span class="p">,</span> <span class="n">speed</span><span class="p">),</span> <span class="n">gravity</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">click_down</span><span class="p">:</span>
+        <span class="n">mouse_x</span><span class="p">,</span> <span class="n">mouse_y</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mouse</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">mouse_x</span> <span class="o">-</span> <span class="n">x</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">mouse_y</span> <span class="o">-</span> <span class="n">y</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">dy</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+        <span class="n">speed</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span> <span class="o">*</span> <span class="o">.</span><span class="mi">1</span>
+
+    <span class="n">x</span> <span class="o">+=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">speed</span>
+    <span class="n">y</span> <span class="o">-=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">speed</span>
+
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">690</span><span class="p">:</span>
+        <span class="c"># setting the x or y ensures that the particle doesn&#39;t &#39;stick&#39; to the boundaries</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">690</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="n">angle</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="n">angle</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">690</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="mi">690</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">angle</span>
+    <span class="k">elif</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">angle</span>
+
+    <span class="n">speed</span> <span class="o">*=</span> <span class="n">drag</span>
+    <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></code></pre></div>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Paul Mouzas<br />
+                Technical Writer/Programmer<br />
+                paul.mouzas@gmail.com
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/paulmouzas">github.com/paulmouzas</a><br />
+                <a href="https://twitter.com/phaedrus86">twitter.com/pavlaki86</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

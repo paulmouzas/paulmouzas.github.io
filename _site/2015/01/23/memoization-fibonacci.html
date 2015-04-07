@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Recursion with Memoization</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Paul Mouzas</a></h1>
+            <a class="extra" href="/">home</a>
+          </div>
+
+          <h2>Recursion with Memoization</h2>
+<p class="meta">23 Jan 2015</p>
+
+<div class="post">
+<p>I&#39;ve mentioned before that I hardly ever use recursion in any of code. I find that a recursive solution to my programming problems hardly ever comes up. Even so, I love study it and create interesting scripts that use it. One very elegant use of the recursion is to create a program to print out the Fibonacci sequence up to the nth place. It is almost too beautiful:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></div>
+
+<p>Although there is no denying the elegance of this simple little script, it comes with a major problem. This program will take a <em>long</em> time to complete. The reason is that it makes a lot of unnecessary calls to itself. The time complexity of this algorithm is exponential. </p>
+
+<p>Here is how long it takes for my computer to compute the above fib function for different inputs of n.</p>
+
+<p>fib(28): 0.125 seconds</p>
+
+<p>fib(29): 0.203000068665 seconds</p>
+
+<p>fib(30): 0.328999996185 seconds</p>
+
+<p>fib(31): 0.532999992371 seconds</p>
+
+<p>fib(32): 0.870000123978 seconds</p>
+
+<p>fib(33): 1.40999984741 seconds</p>
+
+<p>fib(34): 2.26899981499 seconds</p>
+
+<p>fib(35): 3.6819999218 seconds</p>
+
+<p>fib(36): 5.95000004768 seconds</p>
+
+<p>fib(37): 9.6210000515 seconds</p>
+
+<p>fib(38): 15.5989999771 seconds</p>
+
+<p>fib(39): 25.1229999065 seconds</p>
+
+<p>As you can see, as n goes up, the time it takes to complete the program increases drastically. It takes a <em>very</em> long time (in the realm of computers anyway) to compute the Fibonacci number at the 39th place. At this rate, it would take days to compute the Fibonacci number for a larger n. To understand why this function takes so long to execute, it&#39;s helpful to draw out the recursion tree. If we called fib(6), this is what the tree would look like:</p>
+
+<p><img src="/assets/fibonacci_tree(1).png" alt="Fibonacci tree"></p>
+
+<p>If you count the calls, this makes 24 calls to itself (not including the original call fib(6)). There is a simple optimization we can make to this that will cut the time complexity of this function drastically. You&#39;ll notice that this function makes many redundant calls for n. For example fib(3) is called 3 different times, and fib(2) is called 5 different times. Here is how we can optimize this function.</p>
+
+<ol>
+<li>Create a hash table (let&#39;s call it memo).</li>
+<li>Check to see if the key n is in the hash table.</li>
+<li>If it is, <strong>do not make another recursive call</strong>. Simply return the value for memo[n]. This is key. This will avoid creating unnecessary calls for fib(n) when we already know what n is.</li>
+<li>If n is not in the hash table, put it in as the key. The value will be fib(n). The beauty is that now, there will be no more calls to fib(n) if n has already been called.</li>
+</ol>
+
+<p>Great, so how much time will this shave off our function. Well, let&#39;s look at the data. This is how long it takes when I call fib(660).</p>
+
+<p>fib(660): 0.0009999275 seconds</p>
+
+<p>Much better. I couldn&#39;t go much higher than 660 because I exceed the maximum recursion depth (no tail recursion in Python!). Lets start designing a better function.</p>
+
+<p>First we create a hash table.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">table</span> <span class="o">=</span> <span class="p">{}</span></code></pre></div>
+
+<p>This is where we are going to store our calls to fib(n). In the original fib function, there is an if statement that writes out the base case.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>  <span class="c"># Base case</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></div>
+
+<p>Before we declare the base case, let&#39;s check to see if n is a key in table.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>  <span class="c"># Base case</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></div>
+
+<p>This way, we may not have to make more recursive calls. Of course, right now nothing is getting inserted into table. So there is no optimization right now. Let&#39;s change that.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>  <span class="c"># Base case</span>
+        <span class="k">return</span> <span class="n">n</span>  <span class="c"># We could memoize this, but I don&#39;t think it&#39;s necessary. This</span>
+                  <span class="c"># won&#39;t make our function that much slower and I don&#39;t want to</span>
+                  <span class="c"># clutter up the code</span>
+
+    <span class="n">table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span></code></pre></div>
+
+<p>That&#39;s it! We&#39;ve put the key n in the table and associated it with the return value of fib(n - 2) + fib(n - 1). Now, our code will run exponentially faster. The only problem is, this code isn&#39;t very modular, and it doesn&#39;t look very good. By using decorators, we could clean up this code quite a bit. First, let&#39;s recreate our original code, but add a decorator right above it.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@memoize</span>
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>  <span class="c"># Base case</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></div>
+
+<p>Here&#39;s our memoize function.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">memoize</span><span class="p">(</span><span class="n">f</span><span class="p">):</span> <span class="c"># Our fib function is passed through here as f .</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># Previously called values are stored here.</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span> 
+            <span class="n">table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c"># Since n is not a key in the table, we will have</span>
+        <span class="k">return</span> <span class="n">table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>     <span class="c"># to call our fib function with n as an argument.</span>
+    <span class="k">return</span> <span class="n">wrapper</span></code></pre></div>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Paul Mouzas<br />
+                Technical Writer/Programmer<br />
+                paul.mouzas@gmail.com
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/paulmouzas">github.com/paulmouzas</a><br />
+                <a href="https://twitter.com/phaedrus86">twitter.com/pavlaki86</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

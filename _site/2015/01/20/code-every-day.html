@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Coding Every Day</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Paul Mouzas</a></h1>
+            <a class="extra" href="/">home</a>
+          </div>
+
+          <h2>Coding Every Day</h2>
+<p class="meta">20 Jan 2015</p>
+
+<div class="post">
+<p>I&#39;m going to challenge myself by writing code every day. It&#39;s going to be difficult but I think it&#39;s necessary to practice every day to get to where I want to be. Even if all I do is write a little script to solve a puzzle, I must write some code once a day, for at least 30 minutes. I don&#39;t think any less than 30 minutes will help much because I find it takes around 15 minutes to get in a flow state.</p>
+
+<p>I have one large program that I&#39;m working on. It&#39;s a <a href="http://blogodrone.herokuapp.com">blogging application</a> built with Django. It&#39;s a work in progress but I think it&#39;s coming along nicely. I will try and focus on that. </p>
+
+<p>One of my weaknesses as a programmer I feel is that I don&#39;t write enough tests. I&#39;m learning that as a program gets larger and more complex, writing tests is essential. There&#39;s no way I can manually check for bugs every time I edit some code. I think if I write some tests every day, it will greatly improve my code and allow me to catch bugs before they start to cause a problem.</p>
+
+<p>For today, I wrote a script to solve one of reddit.com&#39;s daily programmer puzzles. The program takes two words as inputs. Here&#39;s the description from the puzzle:</p>
+
+<blockquote>
+<p>I had a dream a few weeks back that I thought would be a good challenge. I woke up early and quickly typed up a text description so I wouldn&#39;t forget (Seriously, it was about 5am and when I explained it to my wife she just laughed at me)</p>
+
+<p>Okay so there is a valley. On each side you got cannons. They are firing words at each other. In the middle of the valley the words would make contact and explode. Similar letters from each word would cancel out. But the left over unique letters from each word would fall to the valley and slowly fill it up.</p>
+
+<p>So your challenge is to come up with the code given two words you eliminate letters in common at a ratio of 1 for 1 and produce a set of letters that are left over from each word after colliding in mid air. Which ever side has the most letters left over &quot;wins&quot;. If each side donates an equal amount of letters it is a &quot;tie&quot;.</p>
+</blockquote>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Enter two words separated by spaces: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="n">left_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+<span class="n">right_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+
+<span class="n">chr_array</span> <span class="o">=</span> <span class="n">left_list</span> <span class="o">+</span> <span class="n">right_list</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chr_array</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">chr_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">left_list</span> <span class="ow">and</span> <span class="n">chr_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">right_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">left_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">left_list</span><span class="p">))</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">chr_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">left_list</span><span class="p">[</span><span class="n">left_idx</span><span class="p">]:</span>
+                <span class="n">left_list</span><span class="p">[</span><span class="n">left_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="k">break</span>
+        <span class="k">for</span> <span class="n">right_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">right_list</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">chr_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">right_list</span><span class="p">[</span><span class="n">right_idx</span><span class="p">]:</span>
+                <span class="n">right_list</span><span class="p">[</span><span class="n">right_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="k">break</span>
+
+<span class="k">if</span> <span class="n">len_left</span> <span class="o">&gt;</span> <span class="n">len_right</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;Left wins&#39;</span>
+<span class="k">elif</span> <span class="n">len_left</span> <span class="o">&lt;</span> <span class="n">len_right</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;Right wins&#39;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;Tie&#39;</span></code></pre></div>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Paul Mouzas<br />
+                Technical Writer/Programmer<br />
+                paul.mouzas@gmail.com
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/paulmouzas">github.com/paulmouzas</a><br />
+                <a href="https://twitter.com/phaedrus86">twitter.com/pavlaki86</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>
