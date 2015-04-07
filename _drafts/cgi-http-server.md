@@ -13,6 +13,7 @@ from the current directory. Create a file called myserver.py and place
 the following code in there:
 
 {% highlight python %}
+
 import SimpleHTTPServer
 import BaseHTTPServer
 
@@ -20,28 +21,38 @@ httpd = BaseHTTPServer.HTTPServer(('', 8000),
                     SimpleHTTPServer.SimpleHTTPRequestHandler)
 
 httpd.serve_forever()
+
 {% endhighlight %}
+
+To create an instance of HTTPServer, you must pass two arguments: the
+server address in the form of a tuple, and a request handler. SimpleHTTPRequestHandler is a class that handles
+the requests coming in from the client (more about that later).
 
 Now open up a web browser and go to
 [http://localhost:8000/](http://localhost:8000/). That will list the contents of
 the directory the script was run in. If there were any HTML files in there, the
-browser should properly render the html. This basic server can only handle two
+browser should display a hyperlink to that HTML page and properly render the it,
+after clicking on it. This basic server can only handle two
 types of requests: GET and HEAD. It does not handle POST requests. Let's try and
-send a POST request to see what happens. Run the myserver.py script in a
+send a POST request anyway to see what happens. Run the myserver.py script in a
 terminal:
 
 {% highlight text %}
+
 python myserver.py
+
 {% endhighlight %}
 
 If you don't have the commandline tool netcat, go download it. With netcat,
 connect to localhost on port 8000:
 
 {% highlight text %}
+
 nc localhost 8000
+
 {% endhighlight %}
 
-To send a POST request we need three things:
+Following the HTTP protocol, to send a POST request we need three things:
     - the method type
     - the path
     - and the HTTP version.
@@ -49,12 +60,15 @@ To send a POST request we need three things:
 After connecting with netcat, type this:
 
 {% highlight text %}
+
 POST / HTTP/1.1
+
 {% endhighlight %}
 
 Hit Enter twice and you will get the following response:
 
 {% highlight html %}
+
 HTTP/1.0 501 Unsupported method ('POST')
 Server: SimpleHTTP/0.6 Python/2.7.6
 Date: Tue, 07 Apr 2015 01:45:05 GMT
@@ -70,6 +84,7 @@ Connection: close
 <p>Message: Unsupported method ('POST').
 <p>Error code explanation: 501 = Server does not support this operation.
 </body>
+
 {% endhighlight %}
 
 
@@ -102,13 +117,18 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 {% endhighlight %}
 
 We can easily extend the functionality of the BaseHTTPRequestHandler by creating
-our own handler class that inherits from it:
+our own handler class that inherits from it. Then, we can extend that class my
+creating a method called do_POST() that will handle the POST requests.
 
 {% highlight python %}
+
 import SimpleHTTPServer
 class MyRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     
     def do_POST():
         pass
+
 {% endhighlight %}
 
+Of course, this code actually won't do anything. But, if you try and send
+another POST request to the server, you won't get the error anymore.
