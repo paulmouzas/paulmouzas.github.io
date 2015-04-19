@@ -1,3 +1,7 @@
+---
+layout: post
+title: Simple CGI Server
+---
 The best way to learn how a program works is to write
 that program yourself. You want to learn how servers work?
 Great! Try and write one on your own. Even if you fail, 
