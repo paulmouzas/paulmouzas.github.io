@@ -38,22 +38,14 @@ To create an instance of HTTPServer, you must pass two arguments: the
 server address in the form of a tuple, and a request handler. SimpleHTTPRequestHandler is a class that handles
 the requests coming in from the client (more about that later).
 
-Now open up a web browser and go to
+Now run the script and open up a web browser and go to
 [http://localhost:8000/](http://localhost:8000/). That will list the contents of
 the directory the script was run in. If there were any HTML files in there, the
 browser should display a hyperlink to that HTML page and properly render the it,
 after clicking on it. This basic server can only handle two
 types of requests: GET and HEAD. It does not handle POST requests. Let's try and
-send a POST request anyway to see what happens. Run the myserver.py script in a
-terminal:
-
-{% highlight text %}
-
-python myserver.py
-
-{% endhighlight %}
-
-If you don't have the commandline tool netcat, go download it. With netcat,
+send a POST request anyway to see what happens. Run the script. If you don't have the commandline tool netcat, 
+go download it. With netcat,
 connect to localhost on port 8000:
 
 {% highlight text %}
@@ -63,6 +55,7 @@ nc localhost 8000
 {% endhighlight %}
 
 Following the HTTP protocol, to send a POST request we need three things:
+
     - the method type
     - the path
     - and the HTTP version.
@@ -99,8 +92,8 @@ Connection: close
 
 
 If you take a look at the source code for SimpleHTTPServer, you can view the
-SimpleHTTPRequestHandler.Notice that it has methods called do_GET() and
-do_HEAD():
+SimpleHTTPRequestHandler.Notice that it has methods called do\_GET() and
+do\_HEAD():
 
 {% highlight python %}
 
@@ -127,7 +120,7 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 {% endhighlight %}
 
 We can easily extend the functionality of the BaseHTTPRequestHandler by creating
-our own handler class that inherits from it. Then, we can extend that class my
+our own handler class that inherits from it. Then, we can extend that class by
 creating a method called do_POST() that will handle the POST requests.
 
 {% highlight python %}
@@ -144,7 +137,7 @@ Of course, this code actually won't do anything. But, if you try and send
 another POST request to the server (like we did with netcat above), you won't get the error anymore. Try sending
 another POST with netcat. You'll see that you don't get any response.
 
-When a browser send POST requests, it will send the request line like we sent, followed by
+When a browser sends POST requests, it will send the request line like we sent, followed by
 the headers. Before we write any code to handle the request, let's see exactly what a
 browser will send us when sending a POST request via a web form. Put the
 following HTML in a file called index.html:
