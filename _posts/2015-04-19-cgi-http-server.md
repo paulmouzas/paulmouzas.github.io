@@ -56,9 +56,9 @@ nc localhost 8000
 
 Following the HTTP protocol, to send a POST request we need three things:
 
-    - the method type
-    - the path
-    - and the HTTP version.
+    * the method type
+    * the path
+    * and the HTTP version.
 
 After connecting with netcat, type this:
 
@@ -281,7 +281,7 @@ httpd.serve_forever()
 To see this in action:
 
     1. python myserver.py
-    2. Navigate to (http://localhost:8000/)[http://localhost:8000]
-    3. Enter your name and hit submit.
+    + Navigate to (http://localhost:8000/)[http://localhost:8000]
+    + Enter your name and hit submit.
 
 Pretty simple.
