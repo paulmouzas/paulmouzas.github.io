@@ -17,7 +17,7 @@ much lower level, so it will be a bit trickier.
 
 Python already has a couple of modules that contains a classes that can serve files
 from the current directory. It can serve plain text, and HTML. This module will start us out with a very rudimentary
-server that handles get requests.
+server that handles GET requests.
 
 To start with, create a file called myserver.py and place
 the following code in there:
@@ -281,7 +281,7 @@ httpd.serve_forever()
 To see this in action:
 
 1. python myserver.py
-2. Navigate to (http://localhost:8000/)[http://localhost:8000]
+2. Navigate to [http://localhost:8000/](http://localhost:8000)
 3. Enter your name and hit submit.
 
 Pretty simple.
