@@ -117,7 +117,7 @@ bucket = hashMap[hash_key]
 for kv in bucket:
     k, v = kv
     if k == key:
-        print key
+        print v
         break
 {% endhighlight %}
 Now that we have the basics of how this works, let's write a class called HashMap.
